@@ -1,0 +1,20 @@
+#+title: Experimental Hexdumps
+#+author: Lee Thompson
+
+** Summary
+
+Here is a little repo containing some of my experiments with creating better/more interesting hexdump tools. Some may take alternate display strategies or use more exotic terminal emulator features.
+
+
+** Running
+
+See the [[https://github.com/jart/cosmopolitan][cosmopolitan libc repo]], which is included as a submodule in this project, for more details on building/running on your system. I use [[https://gcc.gnu.org/][GCC]] on Gentoo Linux.
+
+
+** Inspiration/References
+
+A lot of early inspiration came from the work of [[https://justine.lol/index.html][Justine Tunney]]'s examples of using extended or altered character sets to describe more about the hex data being viewed.
+
+- [[https://justine.lol/braille/][braille dump]]
+- [[https://justine.lol/sizetricks/#look][Size Optimization Tricks -> Look at the Binary]]
+- [[https://justine.lol/cosmopolitan/][cosmopolitan libc]]
