@@ -13,7 +13,7 @@ See the [[https://github.com/jart/cosmopolitan][cosmopolitan libc repo]], which 
 
 ** Output
 
-[[file:/images/ef9710c-output.png]]
+[[file:/images/883bf2c-output.png]]
 
 
 ** Inspiration/References
