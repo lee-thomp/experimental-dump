@@ -41,25 +41,40 @@ int main (int argc, char *argv[])
 
     wchar_t glyphs[17];
     wchar_t *glyphBufPtr;
+
     char rawBytes[16];
+
     char hexBytes[50];
     char *hexBufPtr;
 
-    if (!(fd = argc > 1 ? fopen(argv[1], "r") : stdin)) 
+    fd = argc > 1 ? fopen(argv[1], "r") : stdin;
+
+    if (NULL == fd)
     {
         fprintf(stderr, "ERROR: COULD NOT OPEN: %s\n", argv[1]);
         return 1;
     }
-    for (rowWasZero = address = 0;;) 
+
+    for (rowWasZero = address = 0;;)
     {
-        if (!(bytesRead = fread(rawBytes, 1, 16, fd))) break;
+        bytesRead = fread(rawBytes, 1, 16, fd);
+
+        if (0 == bytesRead)
+        {
+            break;
+        }
 
         hexBufPtr = hexBytes;
         glyphBufPtr = glyphs;
 
-        for (zeroTestByte = rowIdx = 0; rowIdx < bytesRead; ++rowIdx) 
+
+        zeroTestByte = 0;
+        for (rowIdx = 0; rowIdx < bytesRead; ++rowIdx)
         {
-            if (rowIdx == 8) *hexBufPtr++ = ' ';
+            if (8 == rowIdx)
+            {
+                *hexBufPtr++ = ' ';
+            }
 
             *hexBufPtr++ = "0123456789abcdef"[(rawBytes[rowIdx] & 0xF0) >> 4];
             *hexBufPtr++ = "0123456789abcdef"[(rawBytes[rowIdx] & 0x0F) >> 0];
@@ -69,12 +84,12 @@ int main (int argc, char *argv[])
             zeroTestByte |= rawBytes[rowIdx];
         }
 
-        if (zeroTestByte || !address) 
+        if ((0 != zeroTestByte) || (0 == address))
         {
             *hexBufPtr = *glyphBufPtr = rowWasZero = 0;
             printf("%08x  %-49s │%ls│\n", address, hexBytes, glyphs);
         }
-        else if (!rowWasZero) 
+        else if (!rowWasZero)
         {
             rowWasZero = 1;
             printf("*\n");
@@ -82,6 +97,11 @@ int main (int argc, char *argv[])
 
         address += bytesRead;
     }
-    if (address) printf("%08x\n", address);
+
+    if (0 != address)
+    {
+        printf("%08x\n", address);
+    }
+
     return !feof(fd);
 }
