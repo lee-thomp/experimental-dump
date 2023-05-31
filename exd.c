@@ -35,8 +35,9 @@ int main (int argc, char *argv[])
     size_t address;
     FILE *fd;
 
-    /* Track if one or more 'rows' were filled with all-zeros. */
-    bool rowWasZero;
+    /* Track if one or more 'rows' were filled with all-zeros. The first
+       row of output is printed unconditionally even if it is all zeros. */
+    bool rowWasZero = false;
     uint8_t zeroTestByte;
 
     /* Buffer (+ ptr) for displaying glyphs on right side of output. */
@@ -47,7 +48,7 @@ int main (int argc, char *argv[])
     char hexBytes[50];
     char *hexBufPtr;
 
-    /* If no filename supplied, read input from stdin. */
+    /* If no filename supplied, read input from stdin, else read first arg. */
     fd = (argc > 1) ? fopen(argv[1], "r") : stdin;
 
     if (NULL == fd)
@@ -57,7 +58,6 @@ int main (int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    rowWasZero = false;
     /* Loop over binary bytes. */
     for (address = 0;;)
     {
