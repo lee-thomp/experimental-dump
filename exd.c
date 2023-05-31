@@ -53,7 +53,7 @@ int main (int argc, char *argv[])
     if (NULL == fd)
     {
         fprintf(stderr, "ERROR: COULD NOT OPEN: %s\n", argv[1]);
-        return 1;
+        return EXIT_FAILURE;
     }
 
     rowWasZero = false;
