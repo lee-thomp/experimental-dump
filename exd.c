@@ -37,7 +37,7 @@ int main (int argc, char *argv[])
 
     /* Track if one or more 'rows' were filled with all-zeros. */
     bool rowWasZero;
-    int zeroTestByte;
+    uint8_t zeroTestByte;
 
     /* Buffer (+ ptr) for displaying glyphs on right side of output. */
     wchar_t glyphs[17];
@@ -62,8 +62,8 @@ int main (int argc, char *argv[])
     for (address = 0;;)
     {
         /* Read bytes from input file into buffer. */
-        char rawBytes[16];
-        int bytesRead = fread(rawBytes, 1, 16, fd);
+        uint8_t rawBytes[16];
+        int bytesRead = fread(rawBytes, sizeof(uint8_t), 16, fd);
 
         /* `fread` will return 0 bytes read on error/eof. */
         if (0 == bytesRead)
