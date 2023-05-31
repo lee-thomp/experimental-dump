@@ -35,55 +35,72 @@ int main (int argc, char *argv[])
     size_t address;
     FILE *fd;
 
+    /* Track if one or more 'rows' were filled with all-zeros. */
     bool rowWasZero;
     int zeroTestByte;
 
+    /* Buffer (+ ptr) for displaying glyphs on right side of output. */
     wchar_t glyphs[17];
     wchar_t *glyphBufPtr;
 
-    char rawBytes[16];
-
+    /* Buffer (+ ptr) for displaying bytes of binary in middle of output. */
     char hexBytes[50];
     char *hexBufPtr;
 
+    /* If no filename supplied, read input from stdin. */
     fd = (argc > 1) ? fopen(argv[1], "r") : stdin;
 
     if (NULL == fd)
     {
+        /* Error out in case of bad cmdline file input. */
         fprintf(stderr, "ERROR: COULD NOT OPEN: %s\n", argv[1]);
         return EXIT_FAILURE;
     }
 
     rowWasZero = false;
+    /* Loop over binary bytes. */
     for (address = 0;;)
     {
+        /* Read bytes from input file into buffer. */
+        char rawBytes[16];
         int bytesRead = fread(rawBytes, 1, 16, fd);
 
+        /* `fread` will return 0 bytes read on error/eof. */
         if (0 == bytesRead)
         {
             break;
         }
 
-        hexBufPtr = hexBytes;
+        /* Point to start of hex/glyph display buffers. */
+        hexBufPtr   = hexBytes;
         glyphBufPtr = glyphs;
 
-
         zeroTestByte = 0;
+
+        /* Iterate over chunk of bytes read in. */
         for (int rowIdx = 0; rowIdx < bytesRead; ++rowIdx)
         {
+            /* Visual separator to break up 'words' in byte display */
             if (8 == rowIdx)
             {
                 *hexBufPtr++ = ' ';
             }
 
+            /* Format current byte into [0-9a-f] for display. */
             *hexBufPtr++ = "0123456789abcdef"[(rawBytes[rowIdx] & 0xF0) >> 4];
             *hexBufPtr++ = "0123456789abcdef"[(rawBytes[rowIdx] & 0x0F) >> 0];
             *hexBufPtr++ = ' ';
 
+            /* Lookup glyph in table, copy into glyph buffer. */
             *glyphBufPtr++ = kCp437[rawBytes[rowIdx] & 255];
+
+            /* This functions as a pseudo-popcount over the read in 'row'.
+               If any byte in a row is non-zero, this byte will not be zero. */
             zeroTestByte |= rawBytes[rowIdx];
         }
 
+        /* If line had non-zero content (or start of file was all-zero),
+           reset buffer pointers and display row address/bytes/glyphs. */
         if ((0 != zeroTestByte) || (0 == address))
         {
             *hexBufPtr = 0;
@@ -94,6 +111,9 @@ int main (int argc, char *argv[])
         }
         else if (!rowWasZero)
         {
+            /* If test byte was zero and not at start of file, record a
+               zero-row and printf an asterisk indicator. If subsequent
+               rows are all zero also another asterisk won't be printed*/
             rowWasZero = true;
             printf("*\n");
         }
@@ -101,10 +121,13 @@ int main (int argc, char *argv[])
         address += bytesRead;
     }
 
+    /* Print address of eof. */
     if (0 != address)
     {
         printf("%08x\n", address);
     }
 
+    /* If some error happened, the file descriptor's 'read head' won't be
+       EOF. In this case, exit non-zero. */
     return (0 != feof(fd)) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
