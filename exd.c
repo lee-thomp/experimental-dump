@@ -104,5 +104,5 @@ int main (int argc, char *argv[])
         printf("%08x\n", address);
     }
 
-    return !feof(fd);
+    return (0 != feof(fd)) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
