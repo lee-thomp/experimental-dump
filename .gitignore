@@ -51,6 +51,12 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+#------------ Above: added by Github / Below: added by me -----------#
+
 # Cosmopolitan/APE
 *.com
 *.com.dbg
+
+# Emacs
+*~
+*.~undo-tree~
