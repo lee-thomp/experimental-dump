@@ -48,7 +48,7 @@ int main (int argc, char *argv[])
     char hexBytes[50];
     char *hexBufPtr;
 
-    fd = argc > 1 ? fopen(argv[1], "r") : stdin;
+    fd = (argc > 1) ? fopen(argv[1], "r") : stdin;
 
     if (NULL == fd)
     {
