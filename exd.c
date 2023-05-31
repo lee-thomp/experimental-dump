@@ -37,8 +37,6 @@ int main (int argc, char *argv[])
 
     bool rowWasZero;
     int zeroTestByte;
-    int rowIdx;
-    int bytesRead;
 
     wchar_t glyphs[17];
     wchar_t *glyphBufPtr;
@@ -59,7 +57,7 @@ int main (int argc, char *argv[])
     rowWasZero = false;
     for (address = 0;;)
     {
-        bytesRead = fread(rawBytes, 1, 16, fd);
+        int bytesRead = fread(rawBytes, 1, 16, fd);
 
         if (0 == bytesRead)
         {
@@ -71,7 +69,7 @@ int main (int argc, char *argv[])
 
 
         zeroTestByte = 0;
-        for (rowIdx = 0; rowIdx < bytesRead; ++rowIdx)
+        for (int rowIdx = 0; rowIdx < bytesRead; ++rowIdx)
         {
             if (8 == rowIdx)
             {
