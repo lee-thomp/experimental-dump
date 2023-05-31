@@ -35,7 +35,7 @@ int main (int argc, char *argv[])
     size_t address;
     FILE *fd;
 
-    int rowWasZero;
+    bool rowWasZero;
     int zeroTestByte;
     int rowIdx;
     int bytesRead;
@@ -56,7 +56,7 @@ int main (int argc, char *argv[])
         return 1;
     }
 
-    rowWasZero = 0;
+    rowWasZero = false;
     for (address = 0;;)
     {
         bytesRead = fread(rawBytes, 1, 16, fd);
@@ -90,13 +90,13 @@ int main (int argc, char *argv[])
         {
             *hexBufPtr = 0;
             *glyphBufPtr = 0;
-            rowWasZero = 0;
+            rowWasZero = false;
 
             printf("%08x  %-49s │%ls│\n", address, hexBytes, glyphs);
         }
         else if (!rowWasZero)
         {
-            rowWasZero = 1;
+            rowWasZero = true;
             printf("*\n");
         }
 
