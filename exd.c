@@ -56,7 +56,8 @@ int main (int argc, char *argv[])
         return 1;
     }
 
-    for (rowWasZero = address = 0;;)
+    rowWasZero = 0;
+    for (address = 0;;)
     {
         bytesRead = fread(rawBytes, 1, 16, fd);
 
@@ -87,7 +88,10 @@ int main (int argc, char *argv[])
 
         if ((0 != zeroTestByte) || (0 == address))
         {
-            *hexBufPtr = *glyphBufPtr = rowWasZero = 0;
+            *hexBufPtr = 0;
+            *glyphBufPtr = 0;
+            rowWasZero = 0;
+
             printf("%08x  %-49s │%ls│\n", address, hexBytes, glyphs);
         }
         else if (!rowWasZero)
