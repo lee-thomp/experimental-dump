@@ -24,6 +24,8 @@ all: ${MAIN} cosmopolitan.h cosmopolitan.a ape.lds ape-no-modify-self.o crt.o
 	  -fno-omit-frame-pointer -pg -mnop-mcount -mno-tls-direct-seg-refs -gdwarf-4 \
 	  -o ${BIN}.dbg ${MAIN} -fuse-ld=bfd -Wl,-T,${COSMO_SUBDIR}/o/${COSMO_MODE}/ape/ape.lds -Wl,--gc-sections \
 	  -I${COSMO_SUBDIR} \
+	  -I${COSMO_SUBDIR}/o \
+	  -I${COSMO_SUBDIR}/o/${COSMO_MODE} \
 	  -include ${COSMO_SUBDIR}/o/cosmopolitan.h \
 		${COSMO_SUBDIR}/o/${COSMO_MODE}/libc/crt/crt.o \
 		${COSMO_SUBDIR}/o/${COSMO_MODE}/ape/ape-no-modify-self.o \
