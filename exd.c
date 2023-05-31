@@ -32,7 +32,7 @@
 
 int main (int argc, char *argv[])
 {
-    long address;
+    size_t address;
     FILE *fd;
 
     int rowWasZero;
