@@ -1,5 +1,5 @@
 /*-*- mode:c;indent-tabs-mode:nil;c-basic-offset:4;tab-width:4;coding:utf-8 -*-│
-╞══════════════════════════════════════════════════════════════════════════════╡
+├──────────────────────────────────────────────────────────────────────────────┤
 │ Copyright 2023 Lee Thompson                                                  │
 │                                                                              │
 │ Permission to use, copy, modify, and/or distribute this software for         │
@@ -14,7 +14,7 @@
 │ PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER               │
 │ TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR             │
 │ PERFORMANCE OF THIS SOFTWARE.                                                │
-╚─────────────────────────────────────────────────────────────────────────────*/
+└─────────────────────────────────────────────────────────────────────────────*/
 #include "cosmopolitan.h"
 #include "libc/str/tab.internal.h"
 
