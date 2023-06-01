@@ -3,12 +3,23 @@
 
 ** Summary
 
-Here is a little repo containing some of my experiments with creating better/more interesting hexdump tools. Some may take alternate display strategies or use more exotic terminal emulator features.
+Here is a little repo containing some of my experiments with creating better/more interesting hexdump tools. Some may take alternate display strategies or use more exotic terminal emulator features. As of now the main display is a slightly altered copy of IBM's [[https://en.wikipedia.org/wiki/Code_page_437][Code Page 437]]. Output is intended to be mostly compatible with that of =hexdump -C= wrt spacing and line lengths.
 
 
 ** Running
 
-See the [[https://github.com/jart/cosmopolitan][cosmopolitan libc repo]], which is included as a submodule in this project, for more details on building/running on your system. I use [[https://gcc.gnu.org/][GCC]] on Gentoo Linux.
+At the command line run =./exd.com <optional file>=. If no file is supplied, a single line of input from =stdin= will be accepted. See the below table for system's this project has been tested and proven to run on.
+
+| OS (shell)              | Runs fine? |
+|-------------------------+------------|
+| Debian 12 (sh/bash/zsh) | Yes        |
+
+
+** Building
+
+At the root of the repo, run =make all=. Some warning info will likely be generated. I mainly build and develop this project on x86 GNU/Linux with GCC 12.2.0. Building on other systems might be made trivial through the cosmopolitan libc's [[https://github.com/jart/cosmopolitan/tree/master/third_party/gcc][own GCC toolchain]], though I haven't tested this at all.
+
+For build errors with cosmopolitan libc or info on building on your specific system, see the [[https://github.com/jart/cosmopolitan][cosmopolitan libc repo]], which is included as a submodule in this project.
 
 
 ** Output
@@ -18,8 +29,12 @@ See the [[https://github.com/jart/cosmopolitan][cosmopolitan libc repo]], which 
 
 ** Inspiration/References
 
-A lot of early inspiration came from the work of [[https://justine.lol/index.html][Justine Tunney]]'s examples of using extended or altered character sets to describe more about the hex data being viewed.
+A lot of early inspiration came from [[https://justine.lol/index.html][Justine Tunney]]'s examples of using extended or altered character sets to describe more about the hex data being viewed. 
 
 - [[https://justine.lol/braille/][braille dump]]
 - [[https://justine.lol/sizetricks/#look][Size Optimization Tricks -> Look at the Binary]]
 - [[https://justine.lol/cosmopolitan/][cosmopolitan libc]]
+
+The original IBM PC's code page 437:
+
+- [[https://en.wikipedia.org/wiki/Code_page_437][Code page 437]]
