@@ -16,7 +16,7 @@
 │ PERFORMANCE OF THIS SOFTWARE.                                                │
 ╚─────────────────────────────────────────────────────────────────────────────*/
 #include "cosmopolitan.h"
-#include "libc/str/tab.internal.h"
+#include "kCodePage.h"
 
 /**
  * @fileoverview Code Page 437 Dump
@@ -92,7 +92,7 @@ int main (int argc, char *argv[])
             *hexBufPtr++ = ' ';
 
             /* Lookup glyph in table, copy into glyph buffer. */
-            *glyphBufPtr++ = kCp437[rawBytes[rowIdx] & 255];
+            *glyphBufPtr++ = kCodePage[rawBytes[rowIdx] & 255];
 
             /* This functions as a pseudo-popcount over the read in 'row'.
                If any byte in a row is non-zero, this byte will not be zero. */

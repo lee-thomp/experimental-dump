@@ -4,11 +4,11 @@ COSMO_SUBDIR=cosmopolitan
 COSMO_MODE=tinylinux
 COSMO_MAKE_ARGS=-j16 m=$(COSMO_MODE)
 
-all: $(MAIN) cosmopolitan-libc
+all: $(MAIN) cosmopolitan-libc kCodePage.o
 	@gcc -g -Os -static -nostdlib -nostdinc -fno-pie -no-pie -mno-red-zone \
 	  -fno-omit-frame-pointer -pg -mnop-mcount -mno-tls-direct-seg-refs \
 	  -gdwarf-4 \
-	  -o $(BIN).dbg $(MAIN) -fuse-ld=bfd -Wl,-T,$(COSMO_SUBDIR)/o/$(COSMO_MODE)/ape/ape.lds -Wl,--gc-sections \
+	  -o $(BIN).dbg $(MAIN) kCodePage.o -fuse-ld=bfd -Wl,-T,$(COSMO_SUBDIR)/o/$(COSMO_MODE)/ape/ape.lds -Wl,--gc-sections \
 	  -I$(COSMO_SUBDIR) \
 	  -I$(COSMO_SUBDIR)/o \
 	  -I$(COSMO_SUBDIR)/o/$(COSMO_MODE) \
@@ -18,6 +18,9 @@ all: $(MAIN) cosmopolitan-libc
 				$(COSMO_SUBDIR)/o/$(COSMO_MODE)/cosmopolitan.a
 	objcopy -S -O binary $(BIN).dbg $(BIN)
 
+kCodePage.o: kCodePage.h kCodePage.S
+	@gcc -I$(COSMO_SUBDIR) \
+	  -c kCodePage.S -o kCodePage.o
 
 cosmopolitan-libc:
 	@cd $(COSMO_SUBDIR) && ./build/bootstrap/make.com $(COSMO_MAKE_ARGS) \
