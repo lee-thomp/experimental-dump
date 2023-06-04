@@ -26,10 +26,26 @@
 		./utils/screengrab-example.sh
 "
 
+# Command to run and capture output of.
 COMMAND="./exd.com ./exd.com | head -n 20"
 
+# Images names mirror branch names.
+BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+HASH="$(git rev-parse --short HEAD)"
+
+# Open a new term with desired geometry, runs program, and captures output.
+# `printf`s are required to simulate the look of the program being run from
+# the command line, and the prompt left after running the command. I preferred
+# the visual look of the command and subsequent output, but also wanted
+# automation.
 gnome-terminal --geometry=96x24 \
-			   -- /usr/bin/sh -c "echo '$ ${COMMAND}'; \
-${COMMAND}; \
-echo $; \
-gnome-screenshot -w -f ./images/$(git rev-parse --short HEAD)-output.png"
+			   -- /usr/bin/sh -c \
+			   "printf '$ %s\n' '${COMMAND}'; \
+			   ${COMMAND}; \
+			   printf '$ '; \
+			   gnome-screenshot -w -f \
+			   ./images/screenshots/${BRANCH}-${HASH}.png"
+
+# If you don't have your prompt configured to tell you what branch you're on
+# (like I do,) it can be useful to echo the location of the generated image.
+printf './images/screenshots/%s.png\n' "${BRANCH}"

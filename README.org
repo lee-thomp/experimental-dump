@@ -24,7 +24,7 @@ For build errors with cosmopolitan libc or info on building on your specific sys
 
 ** Output
 
-[[file:/images/5ca496f-output.png]]
+[[file:/images/screenshots/utils/screenshot-tool-22f9536.png]]
 
 
 ** Inspiration/References
