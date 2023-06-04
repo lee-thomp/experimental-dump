@@ -13,7 +13,7 @@ See the [[https://github.com/jart/cosmopolitan][cosmopolitan libc repo]], which 
 
 ** Output
 
-[[file:/images/5ca496f-output.png]]
+[[file:/images/screenshots/utils/screenshot-tool-22f9536.png]]
 
 
 ** Inspiration/References
