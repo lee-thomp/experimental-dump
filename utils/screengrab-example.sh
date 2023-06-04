@@ -32,8 +32,8 @@ HASH="$(git rev-parse --short HEAD)"
 
 gnome-terminal --geometry=96x24 \
 			   -- /usr/bin/sh -c \
-			   "echo '$ ${COMMAND}'; \
+			   "printf '$ %s\n' '${COMMAND}'; \
 			   ${COMMAND}; \
-			   echo $; \
+			   printf '$ '; \
 			   gnome-screenshot -w -f \
 			   ./images/screenshots/${BRANCH}-${HASH}.png"
