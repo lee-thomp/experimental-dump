@@ -27,8 +27,13 @@
 
 COMMAND="./exd.com ./exd.com | head -n 20"
 
+BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+HASH="$(git rev-parse --short HEAD)"
+
 gnome-terminal --geometry=96x24 \
-			   -- /usr/bin/sh -c "echo '$ ${COMMAND}'; \
-${COMMAND}; \
-echo $; \
-gnome-screenshot -w -f ./images/$(git rev-parse --short HEAD)-output.png"
+			   -- /usr/bin/sh -c \
+			   "echo '$ ${COMMAND}'; \
+			   ${COMMAND}; \
+			   echo $; \
+			   gnome-screenshot -w -f \
+			   ./images/screenshots/${BRANCH}-${HASH}.png"
