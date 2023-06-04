@@ -1,0 +1,6 @@
+#+title: Screenshots
+#+author: Lee Thompson
+
+** Purpose
+
+I wanted a central way to track the output of various versions of the project, especially seeing as the program is designed to give visual feedback. For the purpose of tracking differences in visual output it seemed appropriate for screenshots to be organised according to source control branches.
