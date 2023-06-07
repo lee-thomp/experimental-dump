@@ -1,33 +1,40 @@
-MAIN=exd.c
-BIN=exd.com
-COSMO_SUBDIR=cosmopolitan
 COSMO_MODE=tinylinux
 COSMO_MAKE_ARGS=-j16 m=$(COSMO_MODE)
 
-all: $(MAIN) cosmopolitan-libc
-	@gcc -g -Os -static -nostdlib -nostdinc -fno-pie -no-pie -mno-red-zone \
-	  -fno-omit-frame-pointer -pg -mnop-mcount -mno-tls-direct-seg-refs \
-	  -gdwarf-4 \
-	  -o $(BIN).dbg $(MAIN) -fuse-ld=bfd -Wl,-T,$(COSMO_SUBDIR)/o/$(COSMO_MODE)/ape/ape.lds -Wl,--gc-sections \
-	  -I$(COSMO_SUBDIR) \
-	  -I$(COSMO_SUBDIR)/o \
-	  -I$(COSMO_SUBDIR)/o/$(COSMO_MODE) \
-	  -include	$(COSMO_SUBDIR)/o/cosmopolitan.h \
-				$(COSMO_SUBDIR)/o/$(COSMO_MODE)/libc/crt/crt.o \
-				$(COSMO_SUBDIR)/o/$(COSMO_MODE)/ape/ape-no-modify-self.o \
-				$(COSMO_SUBDIR)/o/$(COSMO_MODE)/cosmopolitan.a
-	objcopy -S -O binary $(BIN).dbg $(BIN)
+# Everything required for compile, link etc.
+COSMO_REQUIRED=	cosmopolitan/o/cosmopolitan.h \
+				cosmopolitan/o/$(COSMO_MODE)/libc/crt/crt.o \
+				cosmopolitan/o/$(COSMO_MODE)/ape/ape-no-modify-self.o \
+				cosmopolitan/o/$(COSMO_MODE)/cosmopolitan.a \
+				cosmopolitan/o/$(COSMO_MODE)/ape/ape.lds
+
+# Required for compile as per [[https://github.com/jart/cosmopolitan#getting-started]].
+INCL_REQUIRED=	cosmopolitan/o/cosmopolitan.h \
+				cosmopolitan/o/$(COSMO_MODE)/cosmopolitan.a
+
+# Useful for file-level includes.
+INCL_DIRS=	-Icosmopolitan \
+	  		-Icosmopolitan/o \
+	  		-Icosmopolitan/o/$(COSMO_MODE) \
+	  		-include $(INCL_REQUIRED)
+
+CFLAGS=-g -Os -fno-omit-frame-pointer -fdata-sections -ffunction-sections -fno-pie -pg -mnop-mcount -mno-tls-direct-seg-refs -gdwarf-4
+
+LDFLAGS=-static -no-pie -nostdlib -fuse-ld=bfd -Wl,-melf_x86_64 -Wl,--gc-sections -Wl,-z,max-page-size=0x1000 -Wl,-T,cosmopolitan/o/$(COSMO_MODE)/ape/ape.lds cosmopolitan/o/$(COSMO_MODE)/ape/ape-no-modify-self.o cosmopolitan/o/$(COSMO_MODE)/libc/crt/crt.o
 
 
-cosmopolitan-libc:
-	@cd $(COSMO_SUBDIR) && ./build/bootstrap/make.com $(COSMO_MAKE_ARGS) \
-		o/cosmopolitan.h \
-		o/$(COSMO_MODE)/libc/crt/crt.o \
-		o/$(COSMO_MODE)/ape/ape-no-modify-self.o \
-		o/$(COSMO_MODE)/cosmopolitan.a \
-		o/$(COSMO_MODE)/ape/ape.lds
+exd.com: exd.com.dbg
+	objcopy -S -O binary $< $@
+
+exd.com.dbg: exd.c $(COSMO_REQUIRED)
+	gcc $(CFLAGS) -o $@ $< $(LDFLAGS) $(INCL_DIRS)
+
+$(COSMO_REQUIRED):
+	cd cosmopolitan && \
+	  ./build/bootstrap/make.com $(COSMO_MAKE_ARGS) \
+	  $(patsubst cosmopolitan/%,%,$@)
 
 clean:
-	rm $(BIN)
-	rm $(BIN).dbg
-	rm -r $(COSMO_SUBDIR)/o
+	rm -r cosmopolitan/o
+	rm *.com
+	rm *.com.dbg
