@@ -2,11 +2,11 @@ COSMO_MODE=tinylinux
 COSMO_MAKE_ARGS=-j16 m=$(COSMO_MODE)
 
 # Everything required for compile, link etc.
-COSMO_REQUIRED=	o/cosmopolitan.h \
-				o/$(COSMO_MODE)/libc/crt/crt.o \
-				o/$(COSMO_MODE)/ape/ape-no-modify-self.o \
-				o/$(COSMO_MODE)/cosmopolitan.a \
-				o/$(COSMO_MODE)/ape/ape.lds
+COSMO_REQUIRED=	cosmopolitan/o/cosmopolitan.h \
+				cosmopolitan/o/$(COSMO_MODE)/libc/crt/crt.o \
+				cosmopolitan/o/$(COSMO_MODE)/ape/ape-no-modify-self.o \
+				cosmopolitan/o/$(COSMO_MODE)/cosmopolitan.a \
+				cosmopolitan/o/$(COSMO_MODE)/ape/ape.lds
 
 # Required for compile as per [[https://github.com/jart/cosmopolitan#getting-started]].
 INCL_REQUIRED=	cosmopolitan/o/cosmopolitan.h \
@@ -29,7 +29,7 @@ all: exd.c $(COSMO_REQUIRED)
 
 $(COSMO_REQUIRED):
 	cd cosmopolitan && \
-	  ./build/bootstrap/make.com $(COSMO_MAKE_ARGS) $@
+	  ./build/bootstrap/make.com $(COSMO_MAKE_ARGS) $(patsubst cosmopolitan/%,%,$@)
 
 clean:
 	rm -r cosmopolitan/o
