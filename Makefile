@@ -23,9 +23,11 @@ CFLAGS=-g -Os -fno-omit-frame-pointer -fdata-sections -ffunction-sections -fno-p
 LDFLAGS=-static -no-pie -nostdlib -fuse-ld=bfd -Wl,-melf_x86_64 -Wl,--gc-sections -Wl,-z,max-page-size=0x1000 -Wl,-T,cosmopolitan/o/$(COSMO_MODE)/ape/ape.lds cosmopolitan/o/$(COSMO_MODE)/ape/ape-no-modify-self.o cosmopolitan/o/$(COSMO_MODE)/libc/crt/crt.o
 
 
-all: exd.c $(COSMO_REQUIRED)
-	gcc $(CFLAGS) -o exd.com.dbg exd.c $(LDFLAGS) $(INCL_DIRS)
+exd.com: exd.com.dbg
 	objcopy -S -O binary exd.com.dbg exd.com
+
+exd.com.dbg: exd.c $(COSMO_REQUIRED)
+	gcc $(CFLAGS) -o exd.com.dbg exd.c $(LDFLAGS) $(INCL_DIRS)
 
 $(COSMO_REQUIRED):
 	cd cosmopolitan && \
