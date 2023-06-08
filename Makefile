@@ -22,19 +22,19 @@ CFLAGS=	-g -Os -fno-omit-frame-pointer -fdata-sections -ffunction-sections \
 
 LDFLAGS=	-static -no-pie -nostdlib -fuse-ld=bfd -Wl,-melf_x86_64 \
 			-Wl,--gc-sections -Wl,-z,max-page-size=0x1000 \
-			-Wl,-T,	$(COSMO_ROOT)/o/$(COSMO_MODE)/ape/ape.lds \
-					$(COSMO_ROOT)/o/$(COSMO_MODE)/ape/ape-no-modify-self.o \
-					$(COSMO_ROOT)/o/$(COSMO_MODE)/libc/crt/crt.o
+			-Wl,-T,$(COSMO_ROOT)/o/$(COSMO_MODE)/ape/ape.lds \
+				$(COSMO_ROOT)/o/$(COSMO_MODE)/ape/ape-no-modify-self.o \
+				$(COSMO_ROOT)/o/$(COSMO_MODE)/libc/crt/crt.o
 
 #════════════════════╡ Experimental Hexdump (Default Target) ╞══════════════════
 exd.com: exd.com.dbg
 	objcopy -S -O binary $< $@
 
-exd.com.dbg: exd.o
+exd.com.dbg: exd.o $(COSMO_REQUIRED)
 	gcc $(CFLAGS) -o $@ $< $(LDFLAGS) $(INCL_DIRS) \
 	  $(COSMO_ROOT)/o/$(COSMO_MODE)/cosmopolitan.a
 
-exd.o: exd.c $(COSMO_REQUIRED)
+exd.o: exd.c $(COSMO_ROOT)/o/cosmopolitan.h
 	gcc -c $(CFLAGS) -o $@ $< $(INCL_DIRS)
 
 $(COSMO_REQUIRED):
@@ -48,12 +48,18 @@ gen-zeros: utils/gen-zeros.com
 utils/gen-zeros.com: utils/gen-zeros/gen-zeros.com.dbg
 	objcopy -S -O binary $< $@
 
-utils/gen-zeros/gen-zeros.com.dbg: utils/gen-zeros/gen-zeros.o
+utils/gen-zeros/gen-zeros.com.dbg: utils/gen-zeros/gen-zeros.o $(COSMO_REQUIRED) 
 	gcc $(CFLAGS) -o $@ $< $(LDFLAGS) $(INCL_DIRS) \
 	  $(COSMO_ROOT)/o/$(COSMO_MODE)/cosmopolitan.a
 
-utils/gen-zeros/gen-zeros.o: utils/gen-zeros/gen-zeros.c $(COSMO_REQUIRED)
+utils/gen-zeros/gen-zeros.o:	utils/gen-zeros/gen-zeros.c \
+								$(COSMO_ROOT)/o/cosmopolitan.h
 	gcc -c $(CFLAGS) -o $@ $< $(INCL_DIRS)
+
+clean-gen-zeros:
+	rm -f utils/gen-zeros/gen-zeros.o
+	rm -f utils/gen-zeros/gen-zeros.com.dbg
+	rm -f utils/gen-zeros.com
 
 clean:
 	rm -rf $(COSMO_ROOT)/o
