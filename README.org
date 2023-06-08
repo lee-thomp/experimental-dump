@@ -17,7 +17,9 @@ At the command line run =./exd.com <optional file>=. If no file is supplied, a s
 
 ** Building
 
-At the root of the repo, run =make all=. Some warning info will likely be generated. I mainly build and develop this project on x86 GNU/Linux with GCC 12.2.0. Building on other systems might be made trivial through the cosmopolitan libc's [[https://github.com/jart/cosmopolitan/tree/master/third_party/gcc][own GCC toolchain]], though I haven't tested this at all.
+For the main =exd.com= executable, run =make all= at the root of the repo. Expect the cosmopolitan side of the build to take a while. I mainly build and develop this project on x86 GNU/Linux with GCC 12.2.0. Building on other systems might be made trivial through the cosmopolitan libc's [[https://github.com/jart/cosmopolitan/tree/master/third_party/gcc][own GCC toolchain]], though I haven't tested this at all.
+
+I considered adding raw test data files, and I might still do, but it's fun to share tools to make data also. At the root of the repo, some test-data generators can be built that generate some non-printable-ASCII data which is helpful for demoing and debugging the main executable. For a directory under =/utils=, run =make <directory-name>= to create an executable under =/utils=. See the source files of each generatorfor more info.
 
 For build errors with cosmopolitan libc or info on building on your specific system, see the [[https://github.com/jart/cosmopolitan][cosmopolitan libc repo]], which is included as a submodule in this project.
 
