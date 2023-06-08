@@ -42,6 +42,11 @@ $(COSMO_REQUIRED):
 	  ./build/bootstrap/make.com $(COSMO_MAKE_ARGS) \
 	  $(patsubst $(COSMO_ROOT)/%,%,$@)
 
+clean-exd:
+	rm -f exd.o
+	rm -f exd.com.dbg
+	rm -f exd.com
+
 #═════════════════════════════╡ Generate All-Zeros ╞════════════════════════════
 gen-zeros: utils/gen-zeros.com
 
@@ -61,7 +66,6 @@ clean-gen-zeros:
 	rm -f utils/gen-zeros/gen-zeros.com.dbg
 	rm -f utils/gen-zeros.com
 
-clean:
+#══════════════════════════════╡ Clean Everything ╞═════════════════════════════
+clean: clean-exd clean-gen-zeros
 	rm -rf $(COSMO_ROOT)/o
-	rm -f *.com
-	rm -f *.com.dbg
