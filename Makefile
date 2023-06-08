@@ -35,6 +35,14 @@ $(COSMO_REQUIRED):
 	  ./build/bootstrap/make.com $(COSMO_MAKE_ARGS) \
 	  $(patsubst $(COSMO_ROOT)/%,%,$@)
 
+
+gen-zeros: utils/gen-zeros.com
+utils/gen-zeros.com: utils/gen-zeros/gen-zeros.com.dbg
+	objcopy -S -O binary $< $@
+
+utils/gen-zeros/gen-zeros.com.dbg: utils/gen-zeros/gen-zeros.c
+	gcc $(CFLAGS) -o $@ $< $(LDFLAGS) $(INCL_DIRS)
+
 clean:
 	rm -rf $(COSMO_ROOT)/o
 	rm -f *.com
