@@ -4,22 +4,18 @@ COSMO_ROOT=$(shell pwd)/cosmopolitan
 COSMO_MODE=tinylinux
 COSMO_MAKE_ARGS=-j16 m=$(COSMO_MODE)
 
-# Everything required for compile, link etc.
+# Required for compile as per [[https://github.com/jart/cosmopolitan#getting-started]].
 COSMO_REQUIRED=	$(COSMO_ROOT)/o/cosmopolitan.h \
 				$(COSMO_ROOT)/o/$(COSMO_MODE)/libc/crt/crt.o \
 				$(COSMO_ROOT)/o/$(COSMO_MODE)/ape/ape-no-modify-self.o \
 				$(COSMO_ROOT)/o/$(COSMO_MODE)/cosmopolitan.a \
 				$(COSMO_ROOT)/o/$(COSMO_MODE)/ape/ape.lds
 
-# Required for compile as per [[https://github.com/jart/cosmopolitan#getting-started]].
-INCL_REQUIRED=	$(COSMO_ROOT)/o/cosmopolitan.h \
-				$(COSMO_ROOT)/o/$(COSMO_MODE)/cosmopolitan.a
-
-# Useful for file-level includes.
+# Makes source file #includes more ergonomic.
 INCL_DIRS=	-I$(COSMO_ROOT) \
 	  		-I$(COSMO_ROOT)/o \
 	  		-I$(COSMO_ROOT)/o/$(COSMO_MODE) \
-	  		-include $(INCL_REQUIRED)
+	  		-include $(COSMO_ROOT)/o/cosmopolitan.h
 
 CFLAGS=-g -Os -fno-omit-frame-pointer -fdata-sections -ffunction-sections -fno-pie -pg -mnop-mcount -mno-tls-direct-seg-refs -gdwarf-4
 
@@ -43,8 +39,12 @@ gen-zeros: utils/gen-zeros.com
 utils/gen-zeros.com: utils/gen-zeros/gen-zeros.com.dbg
 	objcopy -S -O binary $< $@
 
-utils/gen-zeros/gen-zeros.com.dbg: utils/gen-zeros/gen-zeros.c
-	gcc $(CFLAGS) -o $@ $< $(LDFLAGS) $(INCL_DIRS)
+utils/gen-zeros/gen-zeros.com.dbg: utils/gen-zeros/gen-zeros.o
+	gcc $(CFLAGS) -o $@ $< $(LDFLAGS) $(INCL_DIRS) \
+	  $(COSMO_ROOT)/o/$(COSMO_MODE)/cosmopolitan.a
+
+utils/gen-zeros/gen-zeros.o: utils/gen-zeros/gen-zeros.c
+	gcc -c $(CFLAGS) -o $@ $< $(INCL_DIRS)
 
 clean:
 	rm -rf $(COSMO_ROOT)/o
