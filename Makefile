@@ -1,3 +1,5 @@
+#═══╡ -*-mode:makefile-gmake;indent-tabs-mode:t;tab-width:8;coding:utf-8-*- ╞═══
+
 COSMO_ROOT=$(shell pwd)/cosmopolitan
 COSMO_MODE=tinylinux
 COSMO_MAKE_ARGS=-j16 m=$(COSMO_MODE)
@@ -23,7 +25,7 @@ CFLAGS=-g -Os -fno-omit-frame-pointer -fdata-sections -ffunction-sections -fno-p
 
 LDFLAGS=-static -no-pie -nostdlib -fuse-ld=bfd -Wl,-melf_x86_64 -Wl,--gc-sections -Wl,-z,max-page-size=0x1000 -Wl,-T,$(COSMO_ROOT)/o/$(COSMO_MODE)/ape/ape.lds $(COSMO_ROOT)/o/$(COSMO_MODE)/ape/ape-no-modify-self.o $(COSMO_ROOT)/o/$(COSMO_MODE)/libc/crt/crt.o
 
-
+#════════════════════╡ Experimental Hexdump (Default Target) ╞══════════════════
 exd.com: exd.com.dbg
 	objcopy -S -O binary $< $@
 
@@ -35,8 +37,9 @@ $(COSMO_REQUIRED):
 	  ./build/bootstrap/make.com $(COSMO_MAKE_ARGS) \
 	  $(patsubst $(COSMO_ROOT)/%,%,$@)
 
-
+#═════════════════════════════╡ Generate All-Zeros ╞════════════════════════════
 gen-zeros: utils/gen-zeros.com
+
 utils/gen-zeros.com: utils/gen-zeros/gen-zeros.com.dbg
 	objcopy -S -O binary $< $@
 
