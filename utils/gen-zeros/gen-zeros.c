@@ -34,9 +34,11 @@ int main (int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
+    /* Grab a load of (zero-initialised) memory, cap with newline. */
     char *zeroData = (char *)calloc(TESTFILE_LENGTH_bytes, sizeof(char));
     zeroData[TESTFILE_LENGTH_bytes - 1] = '\n';
 
+    /* Exit appropriately if the full length wasn't written. */
     int exitVal =
         (TESTFILE_LENGTH_bytes ==
          fwrite(zeroData, sizeof(char), TESTFILE_LENGTH_bytes, fd))
