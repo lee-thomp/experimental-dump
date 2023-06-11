@@ -17,6 +17,9 @@
 └─────────────────────────────────────────────────────────────────────────────*/
 #include "cosmopolitan.h"
 
+#define TESTFILE_LENGTH_bytes (256u)
+
+
 int main (int argc, char *argv[])
 {
     FILE *fd;
@@ -31,11 +34,12 @@ int main (int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    char *zeroData = (char *)calloc(256, sizeof(char));
-    zeroData[255] = '\n';
+    char *zeroData = (char *)calloc(TESTFILE_LENGTH_bytes, sizeof(char));
+    zeroData[TESTFILE_LENGTH_bytes - 1] = '\n';
 
     int exitVal =
-        (256 == fwrite(zeroData, sizeof(char), 256, fd))
+        (TESTFILE_LENGTH_bytes ==
+         fwrite(zeroData, sizeof(char), TESTFILE_LENGTH_bytes, fd))
         ? EXIT_SUCCESS
         : EXIT_FAILURE;
 
