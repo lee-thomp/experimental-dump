@@ -31,11 +31,11 @@ int main (int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    uint8_t zeroData[256] = {0};
+    uint8_t *zeroData = (uint8_t *)calloc(256, sizeof(uint8_t));
     zeroData[255] = '\n';
 
     int exitVal =
-        (256 == fwrite(zeroData, sizeof(zeroData[0]), sizeof(zeroData), fd))
+        (256 == fwrite(zeroData, sizeof(uint8_t), 256, fd))
         ? EXIT_SUCCESS
         : EXIT_FAILURE;
 
