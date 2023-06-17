@@ -23,7 +23,7 @@
         images directory.
 "
 USAGE=" Usage: (from repo root)
-            ./utils/screengrab-example.sh <command> [<name-suffix>] \
+            ./utils/screengrab-example.sh [<command>] [<name-suffix>] \
 "
 
 # Images are organised according to working branch.
