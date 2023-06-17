@@ -45,5 +45,8 @@ int main (int argc, char *argv[])
         ? EXIT_SUCCESS
         : EXIT_FAILURE;
 
+    /* Explicitly free up memory (good habit). */
+    free(zeroData);
+
     return exitVal;
 }
