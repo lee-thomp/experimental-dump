@@ -30,12 +30,16 @@ LDFLAGS=	-static -no-pie -nostdlib -fuse-ld=bfd -Wl,-melf_x86_64 \
 exd.com: exd.com.dbg
 	objcopy -S -O binary $< $@
 
-exd.com.dbg: exd.o $(COSMO_REQUIRED)
-	gcc $(CFLAGS) -o $@ $< $(LDFLAGS) $(INCL_DIRS) \
+exd.com.dbg: exd.o kCodePage.o $(COSMO_REQUIRED)
+	gcc $(CFLAGS) -o $@ $< kCodePage.o $(LDFLAGS) $(INCL_DIRS) \
 	  $(COSMO_ROOT)/o/$(COSMO_MODE)/cosmopolitan.a
 
 exd.o: exd.c $(COSMO_ROOT)/o/cosmopolitan.h
 	gcc -c $(CFLAGS) -o $@ $< $(INCL_DIRS)
+
+kCodePage.o: kCodePage.h kCodePage.S
+	@gcc -I$(COSMO_ROOT) \
+	  -c kCodePage.S -o kCodePage.o
 
 $(COSMO_REQUIRED):
 	cd cosmopolitan && \
