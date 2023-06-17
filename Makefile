@@ -66,6 +66,25 @@ clean-gen-zeros:
 	rm -f utils/gen-zeros/gen-zeros.com.dbg
 	rm -f utils/gen-zeros.com
 
+#══════════════════════════╡ Generate 0x00-0xFF Range ╞═════════════════════════
+gen-0-255: utils/gen-0-255.com
+
+utils/gen-0-255.com: utils/gen-0-255/gen-0-255.com.dbg
+	objcopy -S -O binary $< $@
+
+utils/gen-0-255/gen-0-255.com.dbg: utils/gen-0-255/gen-0-255.o $(COSMO_REQUIRED)
+	gcc $(CFLAGS) -o $@ $< $(LDFLAGS) $(INCL_DIRS) \
+	  $(COSMO_ROOT)/o/$(COSMO_MODE)/cosmopolitan.a
+
+utils/gen-0-255/gen-0-255.o:	utils/gen-0-255/gen-0-255.c \
+				$(COSMO_ROOT)/o/cosmopolitan.h
+	gcc -c $(CFLAGS) -o $@ $< $(INCL_DIRS)
+
+clean-gen-0-255:
+	rm -f utils/gen-0-255/gen-0-255.o
+	rm -f utils/gen-0-255/gen-0-255.com.dbg
+	rm -f utils/gen-0-255.com
+
 #══════════════════════════════╡ Clean Everything ╞═════════════════════════════
 clean: clean-exd clean-gen-zeros
 	rm -rf $(COSMO_ROOT)/o
