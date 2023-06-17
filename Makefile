@@ -47,13 +47,16 @@ clean-exd:
 	rm -f exd.com.dbg
 	rm -f exd.com
 
+screenshot: exd.com
+	./utils/screengrab-example.sh
+
 #═════════════════════════════╡ Generate All-Zeros ╞════════════════════════════
 gen-zeros: utils/gen-zeros.com
 
 utils/gen-zeros.com: utils/gen-zeros/gen-zeros.com.dbg
 	objcopy -S -O binary $< $@
 
-utils/gen-zeros/gen-zeros.com.dbg: utils/gen-zeros/gen-zeros.o $(COSMO_REQUIRED) 
+utils/gen-zeros/gen-zeros.com.dbg: utils/gen-zeros/gen-zeros.o $(COSMO_REQUIRED)
 	gcc $(CFLAGS) -o $@ $< $(LDFLAGS) $(INCL_DIRS) \
 	  $(COSMO_ROOT)/o/$(COSMO_MODE)/cosmopolitan.a
 
