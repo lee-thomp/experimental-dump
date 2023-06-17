@@ -38,13 +38,13 @@ exd.com.dbg: exd.o kCodePage.o kByteColours.o $(COSMO_REQUIRED)
 exd.o: exd.c $(COSMO_ROOT)/o/cosmopolitan.h
 	gcc -c $(CFLAGS) -o $@ $< $(INCL_DIRS)
 
-kCodePage.o: kCodePage.h kCodePage.S
-	@gcc -I$(COSMO_ROOT) \
-	  -c kCodePage.S -o kCodePage.o
+kCodePage.o: kCodePage.S kCodePage.h
+	gcc -I$(COSMO_ROOT) \
+	  -c $< -o $@
 
-kByteColours.o: kByteColours.h kByteColours.S
-	@gcc -I$(COSMO_ROOT) \
-	  -c kByteColours.S -o kByteColours.o
+kByteColours.o: kByteColours.S kByteColours.h
+	gcc -I$(COSMO_ROOT) \
+	  -c $< -o $@
 
 $(COSMO_REQUIRED):
 	cd cosmopolitan && \
