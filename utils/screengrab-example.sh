@@ -26,10 +26,16 @@ USAGE=" Usage: (from repo root)
             ./utils/screengrab-example.sh [<command>] [<name-suffix>] \
 "
 
-# Images are organised according to working branch.
+# Images are organised according to working branch. If a different suffix isn't
+# specified, the short hash will be used.
 BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 HASH="$(git rev-parse --short HEAD)"
 
+# Set command to run and output file suffix depending on args given:
+#   - If no args given, run default demo command with short hash suffix.
+#   - If one arg given, assume it's the command to run.
+#   - If two args given, run command and replace hash with suffix.
+#   - If too many args given, show usage and exit.
 case $# in
 
     0)
@@ -50,6 +56,9 @@ case $# in
         ;;
 esac
 
+# Assemble output filename from branch and hash/suffix. This has the benefit
+# that output is automatically dumped into a folder according to the branch
+# name 'prefix'.
 OUTNAME=./images/screenshots/${BRANCH}-${SUFFIX}.png
 
 # Open a new term with desired geometry, runs program, and captures output.
