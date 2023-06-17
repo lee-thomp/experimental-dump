@@ -17,6 +17,7 @@
 └─────────────────────────────────────────────────────────────────────────────*/
 #include "cosmopolitan.h"
 #include "kCodePage.h"
+#include "kByteColours.h"
 
 /**
  * @fileoverview Code Page 437 Dump
@@ -41,11 +42,11 @@ int main (int argc, char *argv[])
     uint8_t zeroTestByte;
 
     /* Buffer (+ ptr) for displaying glyphs on right side of output. */
-    wchar_t glyphs[17];
+    wchar_t glyphs[17 + (16 * 11)];
     wchar_t *glyphBufPtr;
 
     /* Buffer (+ ptr) for displaying bytes of binary in middle of output. */
-    char hexBytes[50];
+    char hexBytes[50 + (16 * 11)];
     char *hexBufPtr;
 
     /* If no filename supplied, read input from stdin, else read first arg. */
@@ -86,10 +87,42 @@ int main (int argc, char *argv[])
                 *hexBufPtr++ = ' ';
             }
 
+            /* sprintf ANSI escape codes before formatting byte value.
+               For consistency in buffer size, pointer increment etc. the last
+               value in the '38;5;xxx' triplet is formatted to occupy 3 digits
+               always.*/
+            sprintf(hexBufPtr, "\x1b[38;5;%03dm",
+                    kByteColours[rawBytes[rowIdx] & 255]);
+
+            /* | Part   | Size |
+               |--------+------|
+               | \x1b   |    1 |
+               | [38;5; |    6 |
+               | %03d   |    3 |
+               | m      |    1 |
+               |--------+------|
+               | Total: |   11 | */
+            hexBufPtr += 11;
+
             /* Format current byte into [0-9a-f] for display. */
             *hexBufPtr++ = "0123456789abcdef"[(rawBytes[rowIdx] & 0xF0) >> 4];
             *hexBufPtr++ = "0123456789abcdef"[(rawBytes[rowIdx] & 0x0F) >> 0];
             *hexBufPtr++ = ' ';
+
+            /* Ugly hack for ANSI codes in wide char strings because cosmo
+               doesn't yet implement `swprintf()`.
+               TODO: see if this can be done better some other way. */
+            *glyphBufPtr++ = L'\x1b';
+            *glyphBufPtr++ = L'[';
+            *glyphBufPtr++ = L'3';
+            *glyphBufPtr++ = L'8';
+            *glyphBufPtr++ = L';';
+            *glyphBufPtr++ = L'5';
+            *glyphBufPtr++ = L';';
+            *glyphBufPtr++ = L"0123456789"[kByteColours[rawBytes[rowIdx]] / 100];
+            *glyphBufPtr++ = L"0123456789"[kByteColours[rawBytes[rowIdx]] / 10];
+            *glyphBufPtr++ = L"0123456789"[kByteColours[rawBytes[rowIdx]] % 10];
+            *glyphBufPtr++ = L'm';
 
             /* Lookup glyph in table, copy into glyph buffer. */
             *glyphBufPtr++ = kCodePage[rawBytes[rowIdx] & 255];
@@ -107,7 +140,7 @@ int main (int argc, char *argv[])
             *glyphBufPtr = 0;
             rowWasZero = false;
 
-            printf("%08x  %-49s │%ls│\n", address, hexBytes, glyphs);
+            printf("%08x  %-49s \x1b[0m│%ls\x1b[0m│\n", address, hexBytes, glyphs);
         }
         else if (!rowWasZero)
         {

@@ -1,5 +1,5 @@
 /*-*- mode:unix-assembly; indent-tabs-mode:t; tab-width:8; coding:utf-8     -*-│
-╞══════════════════════════════════════════════════════════════════════════════╡
+├──────────────────────────────────────────────────────────────────────────────┤
 │ Copyright 2023 Lee Thompson                                                  │
 │                                                                              │
 │ Permission to use, copy, modify, and/or distribute this software for         │
@@ -14,16 +14,17 @@
 │ PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER               │
 │ TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR             │
 │ PERFORMANCE OF THIS SOFTWARE.                                                │
-╚─────────────────────────────────────────────────────────────────────────────*/
+└─────────────────────────────────────────────────────────────────────────────*/
 #include "libc/macros.internal.h"
 .rodata
 .align	16
 
-	/* Pseudo-cp437 unicode table. Differs for 0x00: … ellipsis character
-	   to (hopefully) represent null better vs space char, and 0xff: λ for
-	   representing FF. */
+	/* Pseudo-cp437 unicode table. Differs for 0x00: • bullet point with ANSI
+	escape formatting (see `kByteColours.S`, and 0xff: λ for representing
+	FF. */
+
 kCodePage:
-.short	0x2026,0x263a,0x263b,0x2665,0x2666,0x2663,0x2660,0x2022	#00:…☺☻♥♦♣♠•
+.short	0x2022,0x263a,0x263b,0x2665,0x2666,0x2663,0x2660,0x2022	#00:•☺☻♥♦♣♠•
 .short	0x25d8,0x25cb,0x25d9,0x2642,0x2640,0x266a,0x266b,0x263c	#08:◘○◙♂♀♪♫☼
 .short	0x25ba,0x25c4,0x2195,0x203c,0x00b6,0x00a7,0x25ac,0x21a8	#10:►◄↕‼¶§▬↨
 .short	0x2191,0x2193,0x2192,0x2190,0x221f,0x2194,0x25b2,0x25bc	#18:↑↓→←∟↔▲▼
