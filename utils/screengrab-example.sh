@@ -1,4 +1,4 @@
-/*bin/echo '-*- mode:sh-mode;indent-tabs-mode:nil;tab-width:8;coding:utf-8  -*-│
+/*bin/echo '-*- mode:sh-mode;indent-tabs-mode:nil;tab-width:4;coding:utf-8  -*-│
 ├──────────────────────────────────────────────────────────────────────────────┤
 │ Copyright 2023 Lee Thompson                                                  │
 │                                                                              │
@@ -16,14 +16,14 @@
 │ PERFORMANCE OF THIS SOFTWARE.                                                │
 └────────────────────────────────────────────────────────────────'>/dev/null #*/
 
-: "	I use this script to grab the output of the current branch/commit
-	I'm working on. This script of course relies on gnome term being
-	installed, so if you don't use gnome you'll have to make your own
-	script. The resulting screenshot will be dumped into the repo's
-	images directory.
+: "     I use this script to grab the output of the current branch/commit
+        I'm working on. This script of course relies on gnome term being
+        installed, so if you don't use gnome you'll have to make your own
+        script. The resulting screenshot will be dumped into the repo's
+        images directory.
 "
-USAGE="	Usage: (from repo root)
-		./utils/screengrab-example.sh <command> [<name-suffix>] \
+USAGE=" Usage: (from repo root)
+            ./utils/screengrab-example.sh <command> [<name-suffix>] \
 "
 
 # Images are organised according to working branch.
@@ -58,12 +58,12 @@ OUTNAME=./images/screenshots/${BRANCH}-${SUFFIX}.png
 # the visual look of the command and subsequent output, but also wanted
 # automation.
 gnome-terminal --geometry=96x24 \
-			   -- /usr/bin/sh -c \
-			   "printf '$ %s\n' '${COMMAND}'; \
-			   ${COMMAND}; \
-			   printf '$ '; \
-			   gnome-screenshot -w -f \
-			   ${OUTNAME}"
+                    -- /usr/bin/sh -c \
+                    "printf '$ %s\n' '${COMMAND}'; \
+                    ${COMMAND}; \
+                    printf '$ '; \
+                    gnome-screenshot -w -f \
+                    ${OUTNAME}"
 
 # If you don't have your prompt configured to tell you what branch you're on
 # (like I do,) it can be useful to echo the location of the generated image.
