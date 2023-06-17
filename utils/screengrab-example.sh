@@ -21,17 +21,36 @@
 	installed, so if you don't use gnome you'll have to make your own
 	script. The resulting screenshot will be dumped into the repo's
 	images directory.
-
-	Usage: (from repo root)
-		./utils/screengrab-example.sh
+"
+USAGE="	Usage: (from repo root)
+		./utils/screengrab-example.sh <command> [<name-suffix>] \
 "
 
-# Command to run and capture output of.
-COMMAND="./exd.com ./exd.com | head -n 20"
-
-# Images names mirror branch names.
+# Images are organised according to working branch.
 BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 HASH="$(git rev-parse --short HEAD)"
+
+case $# in
+
+    0)
+        COMMAND='./exd.com ./exd.com | head -n 20'
+        SUFFIX=$HASH
+        ;;
+    1)
+        COMMAND=$1
+        SUFFIX=$HASH
+        ;;
+    2)
+        COMMAND=$1
+        SUFFIX=$2
+        ;;
+    *)
+        echo "$USAGE"
+        exit 1
+        ;;
+esac
+
+OUTNAME=./images/screenshots/${BRANCH}-${SUFFIX}.png
 
 # Open a new term with desired geometry, runs program, and captures output.
 # `printf`s are required to simulate the look of the program being run from
@@ -44,8 +63,8 @@ gnome-terminal --geometry=96x24 \
 			   ${COMMAND}; \
 			   printf '$ '; \
 			   gnome-screenshot -w -f \
-			   ./images/screenshots/${BRANCH}-${HASH}.png"
+			   ${OUTNAME}"
 
 # If you don't have your prompt configured to tell you what branch you're on
 # (like I do,) it can be useful to echo the location of the generated image.
-printf './images/screenshots/%s.png\n' "${BRANCH}"
+printf '%s\n' "${OUTNAME}"
