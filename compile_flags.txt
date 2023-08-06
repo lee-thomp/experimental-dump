@@ -1,0 +1,3 @@
+-Icosmopolitan
+-Icosmopolitan/o
+-Icosmopolitan/o/*/
