@@ -10,10 +10,12 @@ Here is a little repo containing some of my experiments with creating better/mor
 
 At the command line run =./exd.com <optional file>=. If no file is supplied, a single line of input from =stdin= will be accepted. See the below table for systems this project has been tested and proven to run on.
 
-| OS (shell)              | Runs fine? |
-|-------------------------+------------|
-| Debian 12 (sh/bash/zsh) | Yes        |
-| Gentoo (sh/bash/zsh)    | Yes        |
+| OS (shell)                                           | Runs fine?                |
+|------------------------------------------------------+---------------------------|
+| Debian 12 (sh/bash/zsh)                              | Yes                       |
+| Gentoo (sh/bash/zsh)                                 | Yes                       |
+| Windows 10 (cmd.exe/Powershell/Git Bash for Windows) | Runs fine, can't compile. |
+|                                                      |                           |
 
 
 ** Building
