@@ -26,7 +26,7 @@ For build errors with cosmopolitan libc or info on building on your specific sys
 
 ** Output
 
-[[file:/images/screenshots/utils/screenshot-tool-fece861.png]]
+[[file:images/screenshots/utils/screenshot-tool-fece861.png]]
 
 
 ** Inspiration/References
