@@ -61,6 +61,11 @@ esac
 # name 'prefix'.
 OUTNAME=./images/screenshots/${BRANCH}-${SUFFIX}.png
 
+# Make sure the required directory for the output image exists. Without this
+# the tool will silently do nothing.
+OUTDIR=$(dirname ${OUTNAME})
+mkdir -p ${OUTDIR}
+
 # Open a new term with desired geometry, runs program, and captures output.
 # `printf`s are required to simulate the look of the program being run from
 # the command line, and the prompt left after running the command. I preferred
