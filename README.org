@@ -26,12 +26,12 @@ For build errors with cosmopolitan libc or info on building on your specific sys
 
 ** Output
 
-[[file:/images/screenshots/utils/screenshot-tool-fece861.png]]
+[[file:/images/screenshots/feature/better-0x00-3a7116d.png]]
 
 
 ** Inspiration/References
 
-A lot of early inspiration came from [[https://justine.lol/index.html][Justine Tunney]]'s examples of using extended or altered character sets to describe more about the hex data being viewed. 
+A lot of early inspiration came from [[https://justine.lol/index.html][Justine Tunney]]'s examples of using extended or altered character sets to describe more about the hex data being viewed.
 
 - [[https://justine.lol/braille/][braille dump]]
 - [[https://justine.lol/sizetricks/#look][Size Optimization Tricks -> Look at the Binary]]
