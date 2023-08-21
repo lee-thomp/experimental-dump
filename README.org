@@ -29,7 +29,7 @@ For build errors with cosmopolitan libc or info on building on your specific sys
 
 ** Output
 
-[[file:/images/screenshots/feature/better-0x00-3a7116d.png]]
+[[file:/images/screenshots/master-62d52a7.png]]
 
 
 ** Inspiration/References
