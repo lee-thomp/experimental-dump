@@ -8,14 +8,14 @@ Here is a little repo containing some of my experiments with creating better/mor
 
 ** Running
 
-At the command line run =./exd.com <optional file>=. If no file is supplied, a single line of input from =stdin= will be accepted. See the below table for systems this project has been tested and proven to run on.
+At the command line run =./exd.com <optional file>=. If no file is supplied, a single line of input from =stdin= will be accepted. See the below table for system's this project has been tested and proven to run on.
 
-| OS (shell)                                           | Runs fine?                |
-|------------------------------------------------------+---------------------------|
-| Debian 12 (sh/bash/zsh)                              | Yes                       |
-| Gentoo (sh/bash/zsh)                                 | Yes                       |
-| Windows 10 (cmd.exe/Powershell/Git Bash for Windows) | Runs fine, can't compile. |
-|                                                      |                           |
+| OS (shell)                                           | Runs fine?                         |
+|------------------------------------------------------+------------------------------------|
+| Debian 12 (sh/bash/zsh)                              | Yes                                |
+| Gentoo (sh/bash/zsh)                                 | Yes                                |
+| Windows 10 (cmd.exe/Powershell/Git Bash for Windows) | Runs fine, no idea how to compile. |
+|                                                      |                                    |
 
 
 ** Building
@@ -29,12 +29,12 @@ For build errors with cosmopolitan libc or info on building on your specific sys
 
 ** Output
 
-[[file:images/screenshots/utils/screenshot-tool-fece861.png]]
+[[file:/images/screenshots/feature/better-0x00-3a7116d.png]]
 
 
 ** Inspiration/References
 
-A lot of early inspiration came from [[https://justine.lol/index.html][Justine Tunney]]'s examples of using extended or altered character sets to describe more about the hex data being viewed. 
+A lot of early inspiration came from [[https://justine.lol/index.html][Justine Tunney]]'s examples of using extended or altered character sets to describe more about the hex data being viewed.
 
 - [[https://justine.lol/braille/][braille dump]]
 - [[https://justine.lol/sizetricks/#look][Size Optimization Tricks -> Look at the Binary]]
